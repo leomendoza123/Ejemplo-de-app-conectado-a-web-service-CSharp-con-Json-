@@ -14,6 +14,7 @@ import org.ksoap2.transport.HttpResponseException;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+import Datos.Show;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -30,54 +31,31 @@ import android.os.Build;
 public class MainActivity extends Activity {
 	
 	public void EnviarOnclick(View v){
-
 		
-		Thread nt = new Thread(){
-			String res; 
-			@Override
-			public void run(){
-				String NAMESPACE = "http://tempuri.org/"; 
-				String URL = "http://201.201.163.14/Reque/WebService.asmx"; 
-				String METHOD_NAME = "Eventos"; 
-				String SOAP_ACTION = "http://tempuri.org/Eventos"; 
-				
-				SoapObject request= new SoapObject(NAMESPACE, METHOD_NAME);
-				
-				SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11); 
-				envelope.dotNet = true; 
-				envelope.setOutputSoapObject(request);
-				
-				HttpTransportSE trasporte = new HttpTransportSE(URL); 
-				
-				try {
-					trasporte.call(SOAP_ACTION, envelope);
-					SoapPrimitive resultado_xml = (SoapPrimitive) envelope.getResponse(); 
-					res = resultado_xml.toString(); 
-				} catch (HttpResponseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (XmlPullParserException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-				
-				runOnUiThread(new Runnable(){
-					@Override 
-					public void run(){
-						Toast.makeText(MainActivity.this, res, Toast.LENGTH_LONG).show();
-						TextView result =  (TextView) findViewById(R.id.textView_resultado); 
-						result.setText(res);
-					}	
-				});
-			}
 		
+		
+		/// SE LLAMA AL WebServiceConn.GET DE ELEMENTOS QUE SE QUIERE OBTENER, y se va a guardar en un atributo estatico de la clase
+		WebServiceConn.getShows();
+		
+		runOnUiThread(new Runnable(){
 			
-		};
-		nt.start();
+			
+			@Override 
+			public void run(){
+				String resultadoEnString = ""; 
 				
+				/// SE USA EL WebServiceConn.ARRAYELEMENTOS que se LLAMO
+				for (Show thisShow:  WebServiceConn.Shows){
+					
+					resultadoEnString += thisShow.toString() + "    _____    /n"; 
+				}
+				TextView result_label =  (TextView) findViewById(R.id.textView_resultado); 
+				
+				result_label.setText(resultadoEnString);
+			}	
+		});
+		
+
 	}
 
 
