@@ -14,7 +14,10 @@ import org.ksoap2.transport.HttpResponseException;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+import Datos.Atraccion;
+import Datos.Restaurante;
 import Datos.Show;
+import Datos.Tienda;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -38,9 +41,21 @@ public class MainActivity extends Activity {
 				String resultadoEnString = ""; 
 				
 				/// SE USA EL WebServiceConn.ARRAYELEMENTOS que se LLAMO
-				for (Show thisShow:  WebServiceConn.Shows){
+				for (Show show:  WebServiceConn.Shows){
 					
-					resultadoEnString += thisShow.toString() + "    _____    /n"; 
+					resultadoEnString += show.toString() + "    _____    \n"; 
+				}
+				for (Restaurante restaurante:  WebServiceConn.Restaurantes){
+					
+					resultadoEnString += restaurante.toString() + "    _____    \n"; 
+				}
+				for (Atraccion atraccion:  WebServiceConn.Atracciones){
+					
+					resultadoEnString += atraccion.toString() + "    _____    \n"; 
+				}
+				for (Tienda tienda:  WebServiceConn.Tiendas){
+					
+					resultadoEnString += tienda.toString() + "    _____    \n"; 
 				}
 				TextView result_label =  (TextView) findViewById(R.id.textView_resultado); 
 				
@@ -56,6 +71,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		/// SE LLAMA AL WebServiceConn.GET DE ELEMENTOS QUE SE QUIERE OBTENER, y se va a guardar en un atributo estatico de la clase
 		WebServiceConn.getShows();
+		//WebServiceConn.getRestaurantes();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		if (savedInstanceState == null) {
