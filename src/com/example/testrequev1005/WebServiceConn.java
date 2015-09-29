@@ -19,7 +19,6 @@ import org.ksoap2.transport.HttpResponseException;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
-import Datos.Atraccion;
 import Datos.Show;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +34,14 @@ public class WebServiceConn {
 			String res; 
 			@Override
 			public void run(){
+				
+				
+				/////// PETICION AL WEBSERVICE
+				
 				String NAMESPACE = "http://tempuri.org/"; 
 				String URL = "http://201.201.163.14/Reque/WebService.asmx"; 
-				String METHOD_NAME = "getShows"; 
-				String SOAP_ACTION = "http://tempuri.org/getShows";
+				String METHOD_NAME = "getShows"; /// Cambio el nombre de la funcion 
+				String SOAP_ACTION = "http://tempuri.org/getShows"; // Cambiar despues del / por el nombre de la funcion 
 				
 				SoapObject request= new SoapObject(NAMESPACE, METHOD_NAME);
 				
@@ -64,18 +67,21 @@ public class WebServiceConn {
 				}	
 				
 				
+				//// CONVIERTE EL RESULTADO EN UNA LISTA DE OBJETOS
+				
 				try {
 					JSONArray  jArray = new JSONArray(res);
 					for(int i = 0; i < jArray.length(); i++)
 					{
-						DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 					      JSONObject Jobject = jArray.getJSONObject(i); 
-					      Show newObjectAtraccion = new Show(
-					    		  Jobject.getString("nombre"),
-					    		  format.parse( Jobject.getString("termina")),
-					    		  format.parse( Jobject.getString("inicia")),
-					    		  Jobject.getString("categoria"));
-					      
+					      Show newObjectAtraccion =
+					    		  
+					    		  new Show(
+						    		  Jobject.getString("nombre"),
+						    		  Jobject.getString("horario"),
+						    		  Jobject.getString("lugar"),
+						    		  Jobject.getString("descripcion"));
+						      
 					      
 					      WebServiceConn.Shows.add(newObjectAtraccion);
 					      

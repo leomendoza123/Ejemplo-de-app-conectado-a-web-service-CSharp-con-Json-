@@ -32,14 +32,7 @@ public class MainActivity extends Activity {
 	
 	public void EnviarOnclick(View v){
 		
-		
-		
-		/// SE LLAMA AL WebServiceConn.GET DE ELEMENTOS QUE SE QUIERE OBTENER, y se va a guardar en un atributo estatico de la clase
-		WebServiceConn.getShows();
-		
 		runOnUiThread(new Runnable(){
-			
-			
 			@Override 
 			public void run(){
 				String resultadoEnString = ""; 
@@ -61,6 +54,8 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		/// SE LLAMA AL WebServiceConn.GET DE ELEMENTOS QUE SE QUIERE OBTENER, y se va a guardar en un atributo estatico de la clase
+		WebServiceConn.getShows();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		if (savedInstanceState == null) {
